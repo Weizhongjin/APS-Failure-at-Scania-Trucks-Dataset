@@ -8,13 +8,7 @@
 
 ### Data:
 
-Training and testing are posted on [D2L](Training and testing are posted on D2L; the training set labeled "SMALLER" has
-been down-sampled by factor of 3 (stratified), from the complete training set. The
-complete training set is also posted on D2L in case you choose to work with it also.*
-Please use the complete test set, as posted on D2L, for your test set. (There is no
-down-sampled version of the test set.)
-For more information on the dataset:
-https://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks); the training set labeled “SMALLER” has been down-sampled by factor of 3 (stratified), from the complete training set. The complete training set is also posted on D2L in case you choose to work with it also.* Please use the complete test set, as posted on D2L, for your test set. (There is no down-sampled version of the test set.)
+Training and testing are posted on [D2L](https://courses.uscden.net/d2l/le/content/15346/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-251275); the training set labeled “SMALLER” has been down-sampled by factor of 3 (stratified), from the complete training set. The complete training set is also posted on D2L in case you choose to work with it also.* Please use the complete test set, as posted on D2L, for your test set. (There is no down-sampled version of the test set.)
 For more information on the dataset:
 https://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
 

@@ -38,6 +38,8 @@ https://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
 
       `data.dropna()`
 
+      when one sample miss half of its feature data
+
    2. Treat missing as a class of feature.
 
       Code:
@@ -68,9 +70,21 @@ https://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
 
 3. Train a model to predict this miss data.
 
-   We can use R programming to solve this problem with mice package.
+   We can use R programming to solve this problem with mice package.（difficult, i will try this method after I finished the baseline)
+   
+4. Finally, I will try the finally method as :
 
+   a.	when missing data rate > 60%, Drop this feature.
 
+   b.	when missing data rate < 5%,  i will use mean to fill them.
+
+   c.	others rate , I will use interpolate to fill them. What's more, if that feature have less than 20 classes, we can sat nah as a new class. And use onehotencoding to encode these features.
+
+   d.	I will a new feature that will show how many data miss within this sample after I finish drop and fill by mean.
+
+   ```data['missing number'] = data.isna().sum(axis = 1)```
+
+   e.	For rest missing data, I will interpolate method to fill them.
 
 ### Problem in this Project
 
@@ -85,4 +99,44 @@ https://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
    Solution:
 
    `data = pd.read_csv("../finaldata/aps_failure_training_set_SMALLER.csv" , na_values='na')`
+   
+2. To check which feature has less than 20 classes, i use R studio to explore by code:
 
+   ```
+   data<-read.csv('aps_failure_training_set_SMALLER.csv',na.strings = 'na')
+   for (i in 2:ncol(data)) {
+     if(length(table(data[i])) < 20 )
+     {
+       print(table(data[i]))
+       print(names(data[i]))
+     }
+   }
+   ```
+
+   we can use one hot encoder on these features.
+
+   These features and their classes are :
+
+   ```
+   [1] "ab_000"
+      0    2    4    6    8   10   12   14   16   18   20   22   26   34   52   68 
+   3626  654  128   42   22   14   10    3    1    2    1    2    1    2    1    1 
+   
+   [1] "as_000"
+         0       4    6268   21748  128844  489122  693990 1246190 1655240 
+     19760       1       1       1       1       1       1       1       1 
+   
+   [1] "cd_000"
+   1209600 
+     19753 
+   
+   [1] "ch_000"
+       0     2 
+   15019     5 
+   
+   [1] "ef_000"
+       0     2     4     6     8    10    12    14    26    74   144   166   276   320 
+   18972    47    21     7     2     2     2     2     1     1     2     1     1     1 
+   ```
+
+   

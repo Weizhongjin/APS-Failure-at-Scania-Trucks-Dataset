@@ -249,4 +249,58 @@ print(cm.info())
    The final cost is : 0    23240
    ```
 
+
+2. Parameter
+
+   Method: SVM (Final Recall score for c param **0.01**, gamma  **0.01** and kernel linear = **0.940384**)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result:
+
+   ```python
+         TN   FP  FN   TP
+   0  15262  363  36  339
+   The final cost is : 0    21630
+   ```
+
+3. Parameter
+
+   Method: SVM (Final Recall score for c param **0.1**, gamma  **0.01** and kernel linear = **0.9336213333333334**)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result:
+
+   ```python
+         TN   FP  FN   TP
+   0  15259  366  41  334
+   The final cost is : 0    24160
+   ```
+
+   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.1, 0.01 linear method1 smote.png)
+
+4. Parameter
+
+   Method: SVM (Final Recall score for c param **0.1**, gamma  **0.01** and kernel rbf = 0.**9596586666666667**)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result:
+
+   ```python
+         TN   FP  FN   TP
+   0  15031  594  16  359
+   The final cost is : 0    13940
+   ```
+
    
+
+   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.1, 0.01 rbf method1 smote.png)
+

@@ -74,17 +74,103 @@ https://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
    
 4. Finally, I will try the finally method as :
 
-   a.	when missing data rate > 60%, Drop this feature.
+**method1**
 
-   b.	when missing data rate < 5%,  i will use mean to fill them.
+   a.	when missing data rate > 70%, Drop this feature.
 
-   c.	others rate , I will use interpolate to fill them. What's more, if that feature have less than 20 classes, we can sat nah as a new class. And use onehotencoding to encode these features.
+   ~~b.	when missing data rate < 5%,  i will use mean to fill them.~~
 
-   d.	I will a new feature that will show how many data miss within this sample after I finish drop and fill by mean.
+   ~~c.	others rate , I will use interpolate to fill them. What's more, if that feature have less than 20 classes, we can sat nah as a new class. And use onehotencoding to encode these features.~~
+
+   d.	I will a new feature that will show how many data miss within this sample after I finish drop and fill by ~~mean~~ median.
 
    ```data['missing number'] = data.isna().sum(axis = 1)```
 
-   e.	For rest missing data, I will interpolate method to fill them.
+   ~~e.	For rest missing data, I will interpolate method to fill them.~~
+#### Scaler and Dimension Reduction:
+
+I use StandardScaler and PCA at first, on next time i will try other methods!
+
+What we should pay more attention is that : we can use testdata to train their own scaler and PCA.
+
+```from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+scaler = StandardScaler()
+scaler.fit(train_data)
+train_data_scaler = scaler.transform(train_data)
+test_data_scaler = scaler.transform(test_data)
+pca = PCA(0.95)
+pca.fit(train_data_scaler)
+train_data_pca = pca.transform(train_data_scaler)
+train_data_preprocessed = pd.DataFrame(train_data_pca)
+test_data_pca = pca.transform(test_data_scaler)
+test_data_preprocessed = pd.DataFrame(test_data_pca)
+```
+
+
+
+#### Data imbalance
+
+Using imbalanced-learn package of python (I should finished it by my self).
+
+Our training data has serious data imbalance, more than 90% sample are negative.
+
+there are several method can use to solve this problem:
+
+1. duplicate oversample and downsample
+2. SMOTE
+3. ROC-AUC/F1 score
+
+The first method can't be used alone , because the data is so much imbalance, so we should combine this 3 method.
+
+###Classifier
+
+#### Validation
+
+cross-validation with code:
+
+```python
+from sklearn.model_selection import StratifiedKFold
+cv = StratifiedKFold(n_splits=5)
+for train, val in cv.split(train_data_balance, train_label_balance):
+  ...
+  
+```
+
+
+
+#### Classifier Model:
+
+We have so many choices:
+
+1. Linear Classifer
+2. Logistic Regression
+3. SVM
+4. Random Forest
+5. XGBroost
+6. KNN
+
+#### Evaluation:
+
+I will use Roc Auc score :
+
+```python
+from sklearn.metrics import roc_auc_score
+...
+roc_auc_score(train_label_balance[val],y_pred)
+```
+
+Finally, I will use confusion_matrix and f1-score to evaluate this classier:
+
+```python
+from sklearn.metrics import f1_score,confusion_matrix
+cm = confusion_matrix(test_label,y_pred_test).ravel()
+cm = pd.DataFrame(cm.reshape((1,4)), columns=['TN', 'FP', 'FN', 'TP'])
+print(cm.info())
+```
+
+
+
 
 ### Problem in this Project
 
@@ -137,6 +223,30 @@ https://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
    [1] "ef_000"
        0     2     4     6     8    10    12    14    26    74   144   166   276   320 
    18972    47    21     7     2     2     2     2     1     1     2     1     1     1 
+   ```
+
+
+3. Using StandardScaler and PCA to preprocess training data, what's more, we should use same processor on test data.
+
+
+
+### Record Log:
+
+1. Parameter:
+
+   Method: Logistic Regression (Final Recall score for c param **100** and penalty **l2** = **0.936032**)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result : 
+
+   ```python
+         TN   FP  FN   TP
+   0  15251  374  39  336
+   
+   The final cost is : 0    23240
    ```
 
    

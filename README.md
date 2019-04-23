@@ -440,3 +440,21 @@ print(cm.info())
     ```
 
     ![](image/GaussianNB.png)
+
+12. Parameter
+
+    Method: SVM (Recall score for c param **10** and kerne **rbf** and gamma **0.01**   = **0.9891437681831583**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  14763.0  862.0  13.0  362.0
+    The final cost is : 0    15120.0
+    ```
+
+    ![](image/svm_10_0.01_rbf_method2_smote.png)

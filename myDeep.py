@@ -142,11 +142,11 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
                     c_vec.append(c)
                     kernel_vec.append(kern)
                     gamma_vec.append(gam)
-                    print ('Recall score for c param', c_param,'and kerne',kern,'and gamma',gam , '  =',auc_score)
-                    print('Cost = ' , cost_vec)
+                    print ('Recall score for c param', c,'and kerne',kern,'and gamma',gam , '  =',auc_score)
+                    print('Cost = ' , cost_final)
                     print('-------------------------')
                     print('')
-        ind_max = score_vec.index(max(score_vec))
+        ind_max = cost_vec.index(min(cost_vec))
         best_c = c_vec[ind_max]
         best_gamma = gamma_vec[ind_max]
         best_kernel = kernel_vec[ind_max]
@@ -182,7 +182,7 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
                 score_vec.append(auc_score)
                 c_vec.append(c)
                 penalty_vec.append(penal)
-                print ('Recall score for c param', c_param,'and Penalty',penal,'=',auc_score)
+                print ('Recall score for c param', c,'and Penalty',penal,'=',auc_score)
                 print('Cost = ' , cost_vec)
                 print('-------------------------')
                 print('')    

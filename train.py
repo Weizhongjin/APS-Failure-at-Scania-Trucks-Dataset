@@ -10,11 +10,11 @@ from sklearn.metrics import accuracy_score,roc_curve,confusion_matrix,precision_
 from sklearn.metrics import f1_score
 import myDeep as md
 
-missing_data_method = 'method1'
+missing_data_method = 'method2'
 scaler_method = 'standard'
 feature_choose = 'pca'
 balance_method = 'SMOTE'
-classifier_parameter = ['svm', 0.001, 0.001 , 'linear']
+classifier_parameter = ['svm', [0.001,0.01,0.1,1,10], [0.01,0.1], ['linear','rbf']]
 foldN = 5
 loop = 3
 
@@ -26,5 +26,5 @@ train_data_scaler, test_data_scaler = md.Scaler(scaler_method,train_data,test_da
 train_data_selection, test_data_selection = md.Feature_selection(feature_choose, train_data_scaler, test_data_scaler )
 train_data_final, train_label_final = md.Balance(balance_method,train_data_selection,train_label)
 test_data_final = test_data_selection
-#final_classifier_parameter = md.Find_Best_Param(classifier_parameter, train_data_final, train_label_final,foldN)
-md.Classifier(classifier_parameter, train_data_final, train_label_final,test_data_final,test_label,loop)
+final_classifier_parameter = md.Find_Best_Param(classifier_parameter, train_data_final, train_label_final,foldN)
+md.Classifier(final_classifier_parameter, train_data_final, train_label_final,test_data_final,test_label,loop)

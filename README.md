@@ -291,7 +291,7 @@ print(cm.info())
    The final cost is : 0    24160
    ```
 
-   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.1, 0.01 linear method1 smote.png)
+   ![](image/svm 0.1, 0.01 linear method1 smote.png)
 
 4. Parameter
 
@@ -311,7 +311,7 @@ print(cm.info())
 
    
 
-   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.1, 0.01 rbf method1 smote.png)
+   ![](image/svm 0.1, 0.01 rbf method1 smote.png)
 
 5. Parameter
 
@@ -329,7 +329,7 @@ print(cm.info())
    The final cost is : 0    14450
    ```
 
-   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.01, 0.01 rbf method1 smote.png)
+   ![](image/svm 0.01, 0.01 rbf method1 smote.png)
 
 6. Parameter
 
@@ -347,7 +347,7 @@ print(cm.info())
    The final cost is : 0    14060
    ```
 
-   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 1, 0.01 rbf method1 smote.png)
+   ![](image/svm 1, 0.01 rbf method1 smote.png)
 
 7. Parameter
 
@@ -365,7 +365,7 @@ print(cm.info())
    The final cost is : 0    48320
    ```
 
-   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.01, g0.1sigmod method1 smote.png)
+   ![](image/svm 0.01, g0.1sigmod method1 smote.png)
 
 7. Parameter
 
@@ -383,7 +383,7 @@ print(cm.info())
    The final cost is : 0    61740
    ```
 
-   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.1, 0.01 poly method1 smote.png)
+   ![](image/svm 0.1, 0.01 poly method1 smote.png)
 
 8. Parameter
 
@@ -401,7 +401,7 @@ print(cm.info())
    The final cost is : 0    24706.0
    ```
 
-   ![](/Users/weizhongjin/usc/ee559/finaldata/image/sgdper_l2.png)
+   ![](image/sgdper_l2.png)
 
 9. Parameter
 
@@ -419,7 +419,7 @@ print(cm.info())
    The final cost is : 0    26416.0
    ```
 
-   ![](/Users/weizhongjin/usc/ee559/finaldata/image/sgdper_l1.png)
+   ![](image/sgdper_l1.png)
 
 10. Parameter
 
@@ -437,4 +437,4 @@ print(cm.info())
     The final cost is : 0    33610.0
     ```
 
-    ![](/Users/weizhongjin/usc/ee559/finaldata/image/GaussianNB.png)
+    ![](image/GaussianNB.png)

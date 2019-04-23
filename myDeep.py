@@ -105,6 +105,7 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
     clf_kind = classifier_parameter[0]
     parameter = classifier_parameter[1:]
     cv = StratifiedKFold(n_splits=foldN)
+    cost_vec = []
     score_vec = []
     if clf_kind == 'svm':
         c_param = parameter[0]
@@ -119,6 +120,7 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
                 for kern in kernel_param:
                     print('/---------------------------------------------/')
                     auc_score = 0
+                    cost_final = 0
                     print('------------------------')
                     print("C Parameter :", c)
                     print("Gamma: ", gam)
@@ -130,12 +132,18 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
                         y_pred = clf.predict(train_data_final[val])
                         Recall = roc_auc_score(train_label_final[val],y_pred)
                         auc_score += Recall
+                        cm = confusion_matrix(train_label_final[val],y_pred).ravel()
+                        cost = 500*cm[2]+10*cm[1]
+                        cost_final += cost
                     auc_score = auc_score/foldN
+                    cost_final=cost_final/foldN
+                    cost_vec.append(cost_final)
                     score_vec.append(auc_score)
                     c_vec.append(c)
                     kernel_vec.append(kern)
                     gamma_vec.append(gam)
                     print ('Recall score for c param', c_param,'and kerne',kern,'and gamma',gam , '  =',auc_score)
+                    print('Cost = ' , cost_vec)
                     print('-------------------------')
                     print('')
         ind_max = score_vec.index(max(score_vec))
@@ -165,11 +173,17 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
                     y_pred = clf.predict(train_data_final[val])
                     Recall = roc_auc_score(train_label_final[val],y_pred)
                     auc_score += Recall
+                    cm = confusion_matrix(train_label_final[val],y_pred).ravel()
+                    cost = 500*cm[2]+10*cm[1]
+                    cost_final += cost
+                cost_final/foldN
+                cost_final=cost_final/foldN
                 auc_score = auc_score/foldN
                 score_vec.append(auc_score)
                 c_vec.append(c)
                 penalty_vec.append(penal)
                 print ('Recall score for c param', c_param,'and Penalty',penal,'=',auc_score)
+                print('Cost = ' , cost_vec)
                 print('-------------------------')
                 print('')    
         ind_max = score_vec.index(max(score_vec))
@@ -192,10 +206,16 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
                 y_pred = clf.predict(train_data_final[val])
                 Recall = roc_auc_score(train_label_final[val],y_pred)
                 auc_score += Recall
+                cm = confusion_matrix(train_label_final[val],y_pred).ravel()
+                cost = 500*cm[2]+10*cm[1]
+                cost_final += cost
+            cost_final=cost_final/foldN
+            cost_vec.append(cost_final)
             auc_score = auc_score/foldN
             score_vec.append(auc_score)
             penalty_vec.append(penalty_n)
             print ('Recall score for Penalty',penalty_n,'=',auc_score)
+            print('Cost = ' , cost_vec)
             print('-------------------------')
             print('')    
         ind_max = score_vec.index(max(score_vec))
@@ -209,9 +229,12 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
         output_parameter.append(0.01)
         output_parameter.append('rbf')
     return output_parameter
+
+
+
 def Classifier(classifier_parameter, train_data_final, train_label_final, text_data_final, test_label, loop):
     clf_kind = classifier_parameter[0]
-    parameter = classifier_parameter[1:-1]
+    parameter = classifier_parameter[1:]
     final = 0
     cm_final = np.zeros(4)
     for i in range(loop):

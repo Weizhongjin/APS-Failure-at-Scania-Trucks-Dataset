@@ -4,11 +4,12 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from imblearn.over_sampling import SMOTE
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, perceptron, SGDClassifier
 from sklearn.model_selection import cross_val_score,StratifiedKFold
 from sklearn.metrics import accuracy_score,roc_curve,confusion_matrix,precision_recall_curve,auc,roc_auc_score,recall_score,classification_report
 from sklearn.metrics import f1_score
 from sklearn import svm
+from sklearn.naive_bayes import GaussianNB
 data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_training_set_SMALLER.csv" , na_values='na')
 test_data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_test_set.csv" , na_values='na')
 train_label = data['class']
@@ -63,44 +64,46 @@ i = 0
 #---------------Logistic Regression-------------------
 # c_parameter_range = [0.0001,0.001,0.01,0.1,1,10,100]
 # penalty = ['l1','l2']
-c_parameter_range = [0.001,0.01,0.1,10,100]
-kernels = ['linear','poly','rbf','sigmoid']
+# c_parameter_range = [0.001,0.01,0.1,10,100]
+# kernels = ['linear','poly','rbf','sigmoid']
+#c_parameter_range = [0.0001,0.001,0.01,0.1,1,10,100]
+penalty = ['l1','l2']
 #---------------SVM-----------------------------------
-for kernel in kernels:
-    if kernel == 'linear':
-        kernel_n = 1
-    elif kernel == 'poly':
-        kernel_n = 2
-    elif kernel == 'rbf':
-        kernel_n = 3
-    elif kernel == 'sigmod':
-        kernel_n = 4
+# for kernel in kernels:
+#     if kernel == 'linear':
+#         kernel_n = 1
+#     elif kernel == 'poly':
+#         kernel_n = 2
+#     elif kernel == 'rbf':
+#         kernel_n = 3
+#     elif kernel == 'sigmod':
+#         kernel_n = 4
         
-    for c_param in c_parameter_range:
-        print('/---------------------------------------------/')
-        auc_score = 0
-        print('------------------------')
-        print("C Parameter :", c_param)
-        print("kernel: ", kernel)
-        print('------------------------')
-        for train, val in cv.split(train_data_balance, train_label_balance):
+#     for c_param in c_parameter_range:
+#         print('/---------------------------------------------/')
+#         auc_score = 0
+#         print('------------------------')
+#         print("C Parameter :", c_param)
+#         print("kernel: ", kernel)
+#         print('------------------------')
+#         for train, val in cv.split(train_data_balance, train_label_balance):
 
-            clf = svm.SVC(C = c_param,kernel = kernel,gamma = 0.01)
-            clf.fit(train_data_balance[train],train_label_balance[train])
-            y_pred = clf.predict(train_data_balance[val])
-            Recall = roc_auc_score(train_label_balance[val],y_pred)
-            auc_score += Recall
+#             clf = svm.SVC(C = c_param,kernel = kernel,gamma = 0.01)
+#             clf.fit(train_data_balance[train],train_label_balance[train])
+#             y_pred = clf.predict(train_data_balance[val])
+#             Recall = roc_auc_score(train_label_balance[val],y_pred)
+#             auc_score += Recall
             
-        auc_score = auc_score/5
+#         auc_score = auc_score/5
         
-        score_vec[i] = auc_score
-        c_vec[i] = c_param
-        ken_vec[i] = kernel_n
-        i += 1
-        print ('Recall score for c param', c_param,'and kerne;',kernel,'=',auc_score)
-        print('-------------------------')
-        print('')
-
+#         score_vec[i] = auc_score
+#         c_vec[i] = c_param
+#         ken_vec[i] = kernel_n
+#         i += 1
+#         print ('Recall score for c param', c_param,'and kerne;',kernel,'=',auc_score)
+#         print('-------------------------')
+#         print('')
+#------------------------------lr---------
 # for penal in penalty:
 #     if penal == 'l1':
 #         penal_n = 1
@@ -131,6 +134,37 @@ for kernel in kernels:
 #         print('-------------------------')
 #         print('')
 
+#----------------------------SGD---------------------------
+# for penal in penalty:
+#     if penal == 'l1':
+#         penal_n = 1
+#     else:
+#         penal_n = 2
+#     for c_param in c_parameter_range:
+#         print('/---------------------------------------------/')
+#         auc_score = 0
+#         print('------------------------')
+#         print("C Parameter :", c_param)
+#         print("Penalty: ", penal)
+#         print('------------------------')
+#         for train, val in cv.split(train_data_balance, train_label_balance):
+
+#             lr = LogisticRegression(C = c_param, penalty = penal,solver='liblinear')
+#             lr.fit(train_data_balance[train],train_label_balance[train])
+#             y_pred = lr.predict(train_data_balance[val])
+#             Recall = roc_auc_score(train_label_balance[val],y_pred)
+#             auc_score += Recall
+            
+#         auc_score = auc_score/5
+        
+#         score_vec[i] = auc_score
+#         c_vec[i] = c_param
+#         pen_vec[i] = penal_n
+#         i += 1
+#         print ('Recall score for c param', c_param,'and penalty',penal,'=',auc_score)
+#         print('-------------------------')
+#         print('')
+#---------------------------------------------------------------------------
 
 # ind_max = np.where(score_vec == np.max(score_vec))
 # best_c = int(c_vec[ind_max])
@@ -139,9 +173,9 @@ for kernel in kernels:
 #     best_penalty = 'l1'
 # else:
 #     best_penalty = 'l2'
-# lr_best = LogisticRegression(C = best_c, penalty = best_penalty,solver='liblinear')
-# lr_fit=lr_best.fit(train_data_balance, train_label_balance)
-# y_pred_test = lr_best.predict(test_data_pca)
+# clf = LogisticRegression(C = best_c, penalty = best_penalty,solver='liblinear')
+# clf_fit=clf.fit(train_data_balance, train_label_balance)
+# y_pred_test = clf.predict(test_data_pca)
 # recall_test_lr=roc_auc_score(test_label,y_pred_test)
 # print ('Final Recall score for c param', c_param,'and penalty',penal,'=',recall_test_lr)
 # print('-------------------------')
@@ -154,24 +188,41 @@ for kernel in kernels:
 # false_positive_rate, true_positive_rate, thresholds = roc_curve(test_label,y_pred_test)
 # roc_auc = auc(false_positive_rate, true_positive_rate)
 ind_max = np.where(score_vec == np.max(score_vec))
-best_c = int(c_vec[ind_max])
-best_kernel = ken_vec[ind_max]
+best_c = 0.1#int(c_vec[ind_max])
+best_kernel = 3#ken_vec[ind_max]
 if best_kernel == 1:
     best_kernel = 'linear'
 elif best_kernel == 2:
-    best_kernel = 'ploy'
+    best_kernel = 'poly'
 elif best_kernel == 3:
     best_kernel = 'rbf'
 else:
-    best_kernel = 'sigmod'  
-svm_best = svm.SVC(C =best_c,gamma = best_kernel, kernel = 'sigmoid')
-svm_fit=svm_best.fit(train_data_balance, train_label_balance)
-y_pred_test = svm_best.predict(test_data_pca)
-recall_test_svm=roc_auc_score(test_label,y_pred_test)
-print ('Final Recall score for c param', best_c,'and kernel',best_kernel,'=',recall_test_svm)
+    best_kernel = 'sigmoid'  
+#clf = svm.SVC(C =best_c,gamma = 0.1, kernel = best_kernel)
+final = 0
+c = np.zeros(4)
+for i in range(10):
+    #clf = SGDClassifier(loss='perceptron', penalty= 'l1')
+    #clf =GaussianNB()
+    clf = svm.SVC(C =best_c,gamma = 0.1, kernel = best_kernel)
+    clf_fit = clf.fit(train_data_balance, train_label_balance)
+    y_pred_test = clf.predict(test_data_pca)
+    recall_test_per=roc_auc_score(test_label,y_pred_test)
+    final += recall_test_per
+    cm = confusion_matrix(test_label,y_pred_test).ravel()
+    c += cm
+    pass
+# clf = SGDClassifier(loss='perceptron', penalty= 'l1')
+# perceptron_fit = sgd_perceptron.fit(train_data_balance, train_label_balance)
+# #svm_fit=svm_best.fit(train_data_balance, train_label_balance)
+# y_pred_test = sgd_perceptron.predict(test_data_pca)
+# recall_test_per=roc_auc_score(test_label,y_pred_test)
+# print ('Final Recall score for c param', best_c,'and kernel',best_kernel,'=',recall_test_per)
+recall_test_per = final/10
+print ('Final Recall score for Classifier=',recall_test_per)
 print('-------------------------')
 print('')
-cm = confusion_matrix(test_label,y_pred_test).ravel()
+cm = c/10
 cm = pd.DataFrame(cm.reshape((1,4)), columns=['TN', 'FP', 'FN', 'TP'])
 print(cm.info())
 print(cm.head())

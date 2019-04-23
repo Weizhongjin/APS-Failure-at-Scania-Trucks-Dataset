@@ -143,12 +143,21 @@ for train, val in cv.split(train_data_balance, train_label_balance):
 
 We have so many choices:
 
-1. Linear Classifer
-2. Logistic Regression
-3. SVM
-4. Random Forest
-5. XGBroost
-6. KNN
+1. SGD Classifier(perceptron)
+
+2. Gaussian Naive Bayes
+
+3. Logistic Regression
+
+4. SVM
+
+5. Random Forest
+
+6. XGBroost
+
+7. KNN
+
+    
 
 #### Evaluation:
 
@@ -304,3 +313,128 @@ print(cm.info())
 
    ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.1, 0.01 rbf method1 smote.png)
 
+5. Parameter
+
+   Method: SVM (Final Recall score for c param **0.01**, gamma  **0.01** and kernel rbf = **0.9564266666666666**)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result:
+
+   ```python
+         TN   FP  FN   TP
+   0  14680  945  10  365
+   The final cost is : 0    14450
+   ```
+
+   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.01, 0.01 rbf method1 smote.png)
+
+6. Parameter
+
+   Method: SVM (Final Recall score for c param **1**, gamma  **0.01** and kernel rbf = **0.9576746666666667**)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result:
+
+   ```python
+         TN   FP  FN   TP
+   0  14719  906  10  365
+   The final cost is : 0    14060
+   ```
+
+   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 1, 0.01 rbf method1 smote.png)
+
+7. Parameter
+
+   Method: SVM (Final Recall score for c param **0.01**, gamma  **0.1** and kernel sigmoid = **0.854976**)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result:
+
+   ```python
+         TN    FP  FN   TP
+   0  12593  3032  36  339
+   The final cost is : 0    48320
+   ```
+
+   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.01, g0.1sigmod method1 smote.png)
+
+7. Parameter
+
+   Method: SVM (Final Recall score for c param **0.01**, gamma  **0.1** and kernel poly = **0.8346986666666666**)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result:
+
+   ```python
+         TN   FP   FN   TP
+   0  15501  124  121  254
+   The final cost is : 0    61740
+   ```
+
+   ![](/Users/weizhongjin/usc/ee559/finaldata/image/svm 0.1, 0.01 poly method1 smote.png)
+
+8. Parameter
+
+   Method: SGD Perceptron (Final Recall score for penalty **L2** =**0.9299541333333332**)(10 times and get the average)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result:
+
+   ```python
+           TN     FP    FN     TP
+   0  14844.4  780.6  33.8  341.2
+   The final cost is : 0    24706.0
+   ```
+
+   ![](/Users/weizhongjin/usc/ee559/finaldata/image/sgdper_l2.png)
+
+9. Parameter
+
+   Method: SGD Perceptron (Final Recall score for penalty **L1* =0.9261888**)(10 times and get the average)
+
+   Imbalance solution: Smote
+
+   Preprocessing: method 1
+
+   Result:
+
+   ```python
+           TN     FP    FN     TP
+   0  14993.4  631.6  40.2  334.8
+   The final cost is : 0    26416.0
+   ```
+
+   ![](/Users/weizhongjin/usc/ee559/finaldata/image/sgdper_l1.png)
+
+10. Parameter
+
+    Method: Gaussian Naive Bates (Final Recall score ** =0.9076488**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 1
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  15114.0  511.0  57.0  318.0
+    The final cost is : 0    33610.0
+    ```
+
+    ![](/Users/weizhongjin/usc/ee559/finaldata/image/GaussianNB.png)

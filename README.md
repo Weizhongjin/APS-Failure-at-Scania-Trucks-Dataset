@@ -291,7 +291,7 @@ print(cm.info())
    The final cost is : 0    24160
    ```
 
-   ![](image/svm 0.1, 0.01 linear method1 smote.png)
+   ![](image/svm_0.1_0.01_linear_method1_smote.png)
 
 4. Parameter
 
@@ -311,7 +311,7 @@ print(cm.info())
 
    
 
-   ![](image/svm 0.1, 0.01 rbf method1 smote.png)
+   ![](image/svm_0.1_0.01_rbf_method1_smote.png)
 
 5. Parameter
 
@@ -329,7 +329,7 @@ print(cm.info())
    The final cost is : 0    14450
    ```
 
-   ![](image/svm 0.01, 0.01 rbf method1 smote.png)
+   ![](image/svm_0.01_0.01_rbf_method1_smote.png)
 
 6. Parameter
 
@@ -347,7 +347,7 @@ print(cm.info())
    The final cost is : 0    14060
    ```
 
-   ![](image/svm 1, 0.01 rbf method1 smote.png)
+   ![](image/svm_1_0.01_rbf_method1_smote.png)
 
 7. Parameter
 
@@ -365,7 +365,7 @@ print(cm.info())
    The final cost is : 0    48320
    ```
 
-   ![](image/svm 0.01, g0.1sigmod method1 smote.png)
+   ![](image/svm_0.01_0.1_sigmod_method1_smote.png)
 
 7. Parameter
 
@@ -383,7 +383,7 @@ print(cm.info())
    The final cost is : 0    61740
    ```
 
-   ![](image/svm 0.1, 0.01 poly method1 smote.png)
+   ![](image/svm_0.1_0.01_poly_method1_smote.png)
 
 8. Parameter
 

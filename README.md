@@ -252,16 +252,16 @@ print(cm.info())
    Result : 
 
    ```python
-         TN   FP  FN   TP
-   0  15251  374  39  336
-   
-   The final cost is : 0    23240
+           TN     FP    FN     TP
+   0  15243.0  382.0  38.0  337.0
+   The final cost is : 0    22820.0
    ```
 
+![](image/lr_100_l2_smote_method1.png)
 
 2. Parameter
 
-   Method: SVM (Final Recall score for c param **0.01**, gamma  **0.01** and kernel linear = **0.940384**)
+   Method: SVM (Final Recall score for c param **0.01**, gamma  **0.01** and kernel linear = **0.948**)
 
    Imbalance solution: Smote
 
@@ -270,10 +270,12 @@ print(cm.info())
    Result:
 
    ```python
-         TN   FP  FN   TP
-   0  15262  363  36  339
-   The final cost is : 0    21630
+           TN     FP    FN     TP
+   0  15250.0  375.0  30.0  345.0
+   The final cost is : 0    18750.0
    ```
+
+   ![](image/svm_0.01_0.01_linear_method1_smote.png)
 
 3. Parameter
 
@@ -367,7 +369,7 @@ print(cm.info())
 
    ![](image/svm_0.01_0.1_sigmod_method1_smote.png)
 
-7. Parameter
+8. Parameter
 
    Method: SVM (Final Recall score for c param **0.01**, gamma  **0.1** and kernel poly = **0.8346986666666666**)
 
@@ -385,7 +387,7 @@ print(cm.info())
 
    ![](image/svm_0.1_0.01_poly_method1_smote.png)
 
-8. Parameter
+9. Parameter
 
    Method: SGD Perceptron (Final Recall score for penalty **L2** =**0.9299541333333332**)(10 times and get the average)
 
@@ -403,25 +405,25 @@ print(cm.info())
 
    ![](image/sgdper_l2.png)
 
-9. Parameter
-
-   Method: SGD Perceptron (Final Recall score for penalty **L1* =0.9261888**)(10 times and get the average)
-
-   Imbalance solution: Smote
-
-   Preprocessing: method 1
-
-   Result:
-
-   ```python
-           TN     FP    FN     TP
-   0  14993.4  631.6  40.2  334.8
-   The final cost is : 0    26416.0
-   ```
-
-   ![](image/sgdper_l1.png)
-
 10. Parameter
+
+  Method: SGD Perceptron (Final Recall score for penalty **L1* =0.9261888**)(10 times and get the average)
+
+  Imbalance solution: Smote
+
+  Preprocessing: method 1
+
+  Result:
+
+  ```python
+          TN     FP    FN     TP
+  0  14993.4  631.6  40.2  334.8
+  The final cost is : 0    26416.0
+  ```
+
+  ![](image/sgdper_l1.png)
+
+11. Parameter
 
     Method: Gaussian Naive Bates (Final Recall score ** =0.9076488**)(10 times and get the average)
 

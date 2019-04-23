@@ -256,7 +256,7 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
         cm = confusion_matrix(test_label,y_pred_test).ravel()
         cm_final += cm
     final_score = final/loop
-    cm_final = round(cm_final/loop)
+    cm_final = cm_final/loop
     print ('Final Recall score for Classifier=',final_score)
     print('-------------------------')
     print('')
@@ -276,7 +276,7 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
     plt.show()
-    cost = 500*cm['FN']+10*cm['FP']
+    cost = 500*cm_final['FN']+10*cm_final['FP']
     print('The final cost is : {}'.format(cost))
 
 

@@ -14,9 +14,9 @@ missing_data_method = 'method2'
 scaler_method = 'standard'
 feature_choose = 'pca'
 balance_method = 'SMOTE'
-classifier_parameter = ['svm', [0.001,0.01,0.1,1,10], [0.01,0.1], ['linear','rbf']]
+classifier_parameter = ['SGDperceptron','l1']
 foldN = 5
-loop = 3
+loop = 5
 
 data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_training_set_SMALLER.csv" , na_values='na')
 test_data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_test_set.csv" , na_values='na')
@@ -26,5 +26,5 @@ train_data_scaler, test_data_scaler = md.Scaler(scaler_method,train_data,test_da
 train_data_selection, test_data_selection = md.Feature_selection(feature_choose, train_data_scaler, test_data_scaler )
 train_data_final, train_label_final = md.Balance(balance_method,train_data_selection,train_label)
 test_data_final = test_data_selection
-final_classifier_parameter = md.Find_Best_Param(classifier_parameter, train_data_final, train_label_final,foldN)
-md.Classifier(final_classifier_parameter, train_data_final, train_label_final,test_data_final,test_label,loop)
+#final_classifier_parameter = md.Find_Best_Param(classifier_parameter, train_data_final, train_label_final,foldN)
+md.Classifier(classifier_parameter, train_data_final, train_label_final,test_data_final,test_label,loop)

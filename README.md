@@ -458,3 +458,115 @@ print(cm.info())
     ```
 
     ![](image/svm_10_0.01_rbf_method2_smote.png)
+
+13. Parameter
+
+    Method: SVM (Final Recall score for c param **0.1**, gamma  **0.01** and kernel rbf = 0.**9596586666666667**)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  15023.0  602.0  14.0  361.0
+    The final cost is : 0    13020.0
+    ```
+
+    
+
+    ![](image/svm_0.1_0.01_rbf_method2_smote.png)
+
+14. Parameter
+
+    Method: SVM (Final Recall score for c param **0.01**, gamma  **0.01** and kernel rbf = **0.9559786666666668**)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  14666.0  959.0  10.0  365.0
+    The final cost is : 0    14590.0
+    ```
+
+    
+
+    ![](image/svm_0.01_0.01_rbf_method2_smote.png)
+
+15. Parameter:
+
+    Method: Logistic Regression (Final Recall score for c param **100** and penalty **l2** = **0.9273386666666668**)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Result : 
+
+    ```python
+            TN     FP    FN     TP
+    0  15271.0  354.0  46.0  329.0
+    The final cost is : 0    26540.0
+    ```
+
+![](image/lr_100_l2_smote_method2.png)
+
+16. Parameter
+
+    Method: Gaussian Naive Bates (Final Recall score ** =0.9063146666666666**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  15114.0  511.0  58.0  317.0
+    The final cost is : 0    34110.0
+    ```
+
+    ![](image/GaussianNB_method2.png)
+
+17. Parameter
+
+    Method: SGD Perceptron (Final Recall score for penalty **L2** =**0.9397418666666667**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  14733.6  891.4  23.8  351.2
+    The final cost is : 0    20814.0
+    ```
+
+    ![](image/sgdper_l2_method2.png)
+
+18. Parameter
+
+    Method: SGD Perceptron (Final Recall score for penalty **L1** =**0.9397418666666667**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  14908.2  716.8  45.2  329.8
+    The final cost is : 0    29768.0
+    ```
+
+    ![](image/sgdper_l1_method2.png)

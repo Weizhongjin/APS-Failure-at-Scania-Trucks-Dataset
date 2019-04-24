@@ -236,6 +236,7 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
     clf_kind = classifier_parameter[0]
     parameter = classifier_parameter[1:]
     final = 0
+    print('Parameter: ',classifier_parameter)
     cm_final = np.zeros(4)
     for i in range(loop):
         if clf_kind == 'svm':
@@ -243,7 +244,7 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
         elif clf_kind == 'logisticRegression':
             clf = LogisticRegression(C = parameter[0], penalty = parameter[1] ,solver='liblinear')
         elif clf_kind == 'SGDperceptron':
-            clf = SGDClassifier(loss='perceptron', penalty= parameter[1])
+            clf = SGDClassifier(loss='perceptron', penalty= parameter[0])
         elif clf_kind == 'GaussianNB':
             clf = GaussianNB()
         else:

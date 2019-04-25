@@ -11,10 +11,10 @@ from sklearn.metrics import f1_score
 import myDeep as md
 
 missing_data_method = 'method2'
-scaler_method = 'standard'
+scaler_method = 'minmax'
 feature_choose = 'pca'
 balance_method = 'SMOTE'
-classifier_parameter = ['svm',100,1,'rbf']
+classifier_parameter = ['svm',0.1,0.01,'rbf']
 foldN = 5
 loop = 3
 

@@ -14,9 +14,9 @@ missing_data_method = 'method2'
 scaler_method = 'standard'
 feature_choose = 'pca'
 balance_method = 'SMOTE'
-classifier_parameter = ['SGDperceptron','l1']
+classifier_parameter = ['svm',100,1,'rbf']
 foldN = 5
-loop = 5
+loop = 3
 
 data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_training_set_SMALLER.csv" , na_values='na')
 test_data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_test_set.csv" , na_values='na')

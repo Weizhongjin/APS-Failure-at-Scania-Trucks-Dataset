@@ -519,7 +519,7 @@ print(cm.info())
 
 16. Parameter
 
-    Method: Gaussian Naive Bates (Final Recall score ** =0.9063146666666666**)(10 times and get the average)
+    Method: Gaussian Naive Bates (Final Recall score **=0.9063146666666666**)(10 times and get the average)
 
     Imbalance solution: Smote
 
@@ -537,7 +537,7 @@ print(cm.info())
 
 17. Parameter
 
-    Method: SGD Perceptron (Final Recall score for penalty **L2** =**0.9397418666666667**)(10 times and get the average)
+    Method: SGD l2 Perceptron (Final Recall score for penalty **L2** =**0.9397418666666667**)(10 times and get the average)
 
     Imbalance solution: Smote
 
@@ -570,3 +570,443 @@ print(cm.info())
     ```
 
     ![](image/sgdper_l1_method2.png)
+
+19. Parameter
+
+    Method: SVM 0.1 0.01 RBF (Final Recall score=**0.949984**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Scaler: MinMax Scaler
+
+    Result:
+
+    ```
+            TN     FP    FN     TP
+    0  14937.0  688.0  21.0  354.0
+    The final cost is : 0    17380.0
+    ```
+
+    ![](image/svm_0.1_0.01_rbf_method2_smote_minmax.png)
+
+20. Parameter
+
+    Method: SVM 0.1 0.01 RBF (Final Recall score  =**0.9379413333333331**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 1
+
+    Scaler: MinMax Scaler
+
+    Result:
+
+    ```
+            TN     FP    FN     TP
+    0  15019.0  606.0  32.0  343.0
+    The final cost is : 0    22060.0
+    ```
+
+    ![](image/svm_0.1_0.01_rbf_method1_smote_minmax.png)
+
+21. Parameter:
+
+    Method: Logistic Regression (Final Recall score for c param **100** and penalty **l2** = **0.9437119999999999**)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 1
+
+    Scaler: MinMax
+
+    Result : 
+
+    ```python
+        TN     FP    FN     TP
+    0  15116.0  509.0  30.0  345.0
+    The final cost is : 0    20090.0
+    ```
+
+![](image/lr_100_l2_smote_method1_MINMAX.png)
+
+22. Parameter:
+
+    Method: Logistic Regression (Final Recall score for c param **100** and penalty **l2** = **0.9445866666666667**)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Scaler: MinMax
+
+    Result : 
+
+    ```python
+            TN     FP    FN     TP
+    0  14935.0  690.0  25.0  350.0
+    The final cost is : 0    19400.0
+    ```
+
+![](image/lr_100_l2_smote_method2_MINMAX.png)
+
+23. Parameter
+
+    Method: Gaussian Naive Bates (Final Recall score **=0.9260053333333331**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Scaler: MinMax Scaler
+
+    Result:
+
+    ```
+           TN     FP    FN     TP
+    0  14896.0  729.0  38.0  337.0
+    The final cost is : 0    26290.0
+    ```
+
+    ![](image/GaussianNB_method2_minmaz.png)
+
+24. Parameter
+
+    Method: Gaussian Naive Bates (Final Recall score **=0.9261013333333334**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 1
+
+    Scaler: MinMax Scaler
+
+    Result:
+
+    ```
+            TN     FP    FN     TP
+    0  14899.0  726.0  38.0  337.0
+    The final cost is : 0    26260.0
+    ```
+
+    ![](image/GaussianNB_method1_minmaz.png)
+
+25. Parameter
+
+    Method: Svm 0.01 0.1 rbf  (Final Recall score =**0.9405119999999998**)(10 times and get the average)
+
+    Reduce: SelectKBest (84)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 1
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  15016.0  609.0  30.0  345.0
+    The final cost is : 0    21090.0
+    ```
+
+    ![](image/svm_0.1_0.01_rbf_method1_smote_kbest.png)
+
+26. Parameter
+
+    Method: Svm 0.01 0.1 rbf  (Final Recall score =**0.9403520000000001**)(10 times and get the average)
+
+    Reduce: SelectKBest (84)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  15011.0  614.0  30.0  345.0
+    The final cost is : 0    21140.0
+    ```
+
+    ![](image/svm_0.1_0.01_rbf_method2_smote_kbest.png)
+
+27. Parameter
+
+    Method:SGD Perceptron  (Final Recall score l2  =**0.9390314666666668**)(10 times and get the average)
+
+    Reduce: SelectKBest (84)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 1
+
+    Result:
+
+    ```python
+            TN     FP    FN     TP
+    0  14786.4  838.6  25.6  349.4
+    The final cost is : 0    21186.0
+    ```
+
+    ![](image/sgdper_l2_method1_kbest.png)
+
+28. Parameter
+
+    Method: Gaussian Naive Bates (Final Recall score **=0.940512**)(10 times and get the average)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 1/method 2
+
+    Scaler: MinMax Scaler
+
+    Reduce: KBest 
+
+    Result:
+
+    ```
+            TN     FP    FN     TP
+    0  15141.0  484.0  33.0  342.0
+    The final cost is : 0    21340.0
+    ```
+
+    ![](image/GaussianNB_method1_minmaz_k.png)
+
+29. Parameter:
+
+    Method: Logistic Regression (Final Recall score for c param **100** and penalty **l2** = **0.9349333333333334**)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 1
+
+    Result : 
+
+    ```python
+            TN     FP    FN     TP
+    0  15300.0  325.0  41.0  334.0
+    The final cost is : 0    23750.0
+    ```
+
+![](/Users/weizhongjin/usc/ee559/EE559-Final-Project/image/lr_100_l2_smote_method1_MINMAX_k.png)
+
+30. Parameter:
+
+    Method: Logistic Regression (Final Recall score for c param **100** and penalty **l2** = **0.9348053333333335**)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 2
+
+    Result : 
+
+    ```python
+            TN     FP    FN     TP
+    0  15296.0  329.0  41.0  334.0
+    The final cost is : 0    23790.0
+    ```
+
+![](image/lr_100_l2_smote_method2_MINMAX_k.png)
+
+31. Parameter:
+
+    Method: KNN5 (Final Recall score= **0.9298133333333334**)
+
+    Imbalance solution: Smote
+
+    Preprocessing: method 1
+
+    Result : 
+
+    ```python
+            TN     FP    FN     TP
+    0  15265.0  360.0  44.0  331.0
+    The final cost is : 0    25600.0
+    ```
+
+    ![](image/KNN5_Kbest_method1.png)
+
+32. Parameter:
+
+    Missing Data method: .method2
+
+    Scaler: .minmax
+
+    Feature Selection: .KBest
+
+    Imbalance Solution: .SMOTE
+
+    Parameter:  ['KNN', 5]
+
+    Final Recall score for Classifier (.['KNN', 5])= .0.9325119999999998
+
+    Result : 
+    ```python
+            TN     FP    FN     TP
+    0  15266.0  359.0  42.0  333.0
+    The final cost is : 0    24590.0
+    ```
+    ![](image/KNN5_Kbest_method2.png)
+
+33. Parameter:
+
+    Missing Data method: .method1
+
+    Scaler: .standard
+
+    Feature Selection: .pca
+
+    Imbalance Solution: .SMOTE
+
+    Parameter:  ['KNN', 5]
+
+    Final Recall score for Classifier (.['KNN', 5])= .0.9321173333333335
+
+    \-------------------------
+
+    ```python
+            TN     FP    FN     TP
+    
+    0  15337.0  288.0  44.0  331.0
+    
+    The final cost is : 0    24880.0
+    
+    
+    ```
+
+    ![](image/KNN5_pca_method1_stand.png)
+
+    
+
+34. Parameter:
+
+    Missing Data method: .method1
+
+    Scaler: .standard
+
+    Feature Selection: .pca
+
+    Imbalance Solution: .SMOTE
+
+    Parameter:  ['NN']
+
+    Final Recall score for Classifier (.['NN'])= .0.8383402666666667
+
+    ```python
+            TN    FP     FN     TP
+    0  15539.8  85.2  119.2  255.8
+    The final cost is : 0    60452.0
+    ```
+
+    ![](image/NN_method1_pca_stand.png)
+
+35. Parameter:
+
+    Missing Data method: .method1
+
+    Scaler: .minmax
+
+    Feature Selection: .pca
+
+    Imbalance Solution: .SMOTE
+
+    Parameter:  ['NN']
+
+    Final Recall score for Classifier (.['NN'])= 0.8375061333333333
+
+    ```python
+             TN    FP     FN     TP
+    0  15555.4  69.6  120.2  254.8
+    The final cost is : 0    60796.0
+    ```
+
+    ![](image/NN_method1_pca_minmax.png)
+
+36. Parameter:
+
+    Missing Data method: .method2
+
+    Scaler: .minmax
+
+    Feature Selection: .pca
+
+    Imbalance Solution: .SMOTE
+
+    Parameter:  ['NN']
+
+    Final Recall score for Classifier (.['NN'])= 0.8375061333333333
+
+    ```python
+            TN    FP     FN     TP
+    0  15541.0  84.0  109.4  265.6
+    The final cost is : 0    55540.0
+    ```
+
+    ![](/Users/weizhongjin/usc/ee559/EE559-Final-Project/image/NN_method2_pca_minmax.png)
+
+37. Parameter:
+
+    Missing Data method: .method1
+
+    Scaler: .minmax
+
+    Feature Selection: .K Best 
+
+    Imbalance Solution: .SMOTE
+
+    Parameter:  ['NN']
+
+    Final Recall score for Classifier (.['NN'])=0.8576085333333333
+
+    ```
+            TN     FP     FN     TP
+    0  15508.6  116.4  104.0  271.0
+    The final cost is : 0    53164.0
+    ```
+
+![](image/NN_method1_kbest.png)
+
+38. 
+
+    Missing Data method: .method2
+
+    Scaler: .standard
+
+    Feature Selection: .pca
+
+    Imbalance Solution: .SMOTE
+
+    Parameter:  ['NN']
+
+    Final Recall score for Classifier (.['NN'])= .0.8497791999999998
+
+    ```
+            TN    FP     FN     TP
+    0  15530.6  94.4  110.4  264.6
+    The final cost is : 0    56144.0
+    ```
+
+    ![](image/NN_method2_pca_stand.png)
+
+39. Parameter:
+
+    Missing Data method: .method2
+
+    Scaler: .minmax
+
+    Feature Selection: .K Best 
+
+    Imbalance Solution: .SMOTE
+
+    Parameter:  ['NN']
+
+    Final Recall score for Classifier (.['NN'])=0.8497173333333332
+
+    ```
+            TN     FP     FN     TP
+    0  15512.0  113.0  110.0  265.0
+    The final cost is : 0    56130.0
+    ```
+
+![](image/NN_method2_kbest.png)

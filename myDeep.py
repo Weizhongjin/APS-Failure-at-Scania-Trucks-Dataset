@@ -10,7 +10,9 @@ from sklearn.metrics import accuracy_score,roc_curve,confusion_matrix,precision_
 from sklearn.metrics import f1_score
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
-
+from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
 def MissingData(data, test_data, method):
     if method == 'method1':
         train_label = data['class']
@@ -67,6 +69,7 @@ def MissingData(data, test_data, method):
 
         train_label = train_label.apply(lambda x: 0 if x=='neg' else 1)
         test_label = test_label.apply(lambda x: 0 if x=='neg' else 1)
+    print("Missing Data method: .{}".format(method))
     return train_data, train_label , test_data, test_label
 
 def Scaler(scaler_method,train_data,test_data):
@@ -77,17 +80,20 @@ def Scaler(scaler_method,train_data,test_data):
     scaler.fit(train_data)
     train_data_scaler = scaler.transform(train_data)
     test_data_scaler = scaler.transform(test_data)
+    print("Scaler: .{}".format(scaler_method))
     return train_data_scaler, test_data_scaler
     
-def Feature_selection(feature_choose, train_data_scaler,test_data_scaler):
+def Feature_selection(feature_choose, train_data_scaler,train_label,test_data_scaler, param ):
     if feature_choose == 'pca':
-        selector = PCA(0.95)
-
+        selector = PCA(param)
+        selector.fit(train_data_scaler)
         pass
-    else:
+    elif feature_choose == 'KBest':
+        selector = SelectKBest(chi2, param)
+        selector.fit(train_data_scaler,train_label)
         pass
 
-    selector.fit(train_data_scaler)
+    print("Feature Selection: .{}".format(feature_choose))
     train_data_selection = selector.transform(train_data_scaler)
     test_data_selection = selector.transform(test_data_scaler)
     return train_data_selection, test_data_selection
@@ -98,6 +104,7 @@ def Balance(balance_method, train_data, train_label):
         pass
     else:
         pass
+    print("Imbalance Solution: .{}".format(balance_method))
     train_data_final, train_label_final = balancer.fit_sample(train_data, train_label)
     return train_data_final, train_label_final
 
@@ -247,6 +254,10 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
             clf = SGDClassifier(loss='perceptron', penalty= parameter[0])
         elif clf_kind == 'GaussianNB':
             clf = GaussianNB()
+        elif clf_kind == 'KNN':
+            clf = KNeighborsClassifier(n_neighbors = parameter[0]) 
+        elif clf_kind == 'NN':
+            clf = MLPClassifier()
         else:
             clf = svm.SVC(C=0.01,gamma=0.01,kernel='rbf')
 
@@ -258,13 +269,15 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
         cm_final += cm
     final_score = final/loop
     cm_final = cm_final/loop
-    print ('Final Recall score for Classifier=',final_score)
+    print ('Final Recall score for Classifier (.{})= .{}'.format(classifier_parameter,final_score))
     print('-------------------------')
     print('')
+    print('```')
     cm_final = pd.DataFrame(cm_final.reshape((1,4)), columns=['TN', 'FP', 'FN', 'TP'])
-    print(cm_final.info())
-    print(cm_final.head())
     print(cm_final)
+    cost = 500*cm_final['FN']+10*cm_final['FP']
+    print('The final cost is : {}'.format(cost))
+    print('```')
     false_positive_rate, true_positive_rate, thresholds = roc_curve(test_label,y_pred_test)
     roc_auc = auc(false_positive_rate, true_positive_rate)
     plt.title('Receiver Operating Characteristic')
@@ -277,7 +290,6 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
     plt.show()
-    cost = 500*cm_final['FN']+10*cm_final['FP']
-    print('The final cost is : {}'.format(cost))
+
 
 

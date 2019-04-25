@@ -1,4 +1,3 @@
-import numpy as np 
 import pandas as pd 
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
@@ -12,18 +11,18 @@ import myDeep as md
 
 missing_data_method = 'method2'
 scaler_method = 'minmax'
-feature_choose = 'pca'
+feature_choose = 'KBest'
 balance_method = 'SMOTE'
-classifier_parameter = ['svm',0.1,0.01,'rbf']
+classifier_parameter = ['NN']
 foldN = 5
-loop = 3
+loop = 5
 
 data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_training_set_SMALLER.csv" , na_values='na')
 test_data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_test_set.csv" , na_values='na')
-
+print('Parameter:')
 train_data, train_label , test_data, test_label = md.MissingData(data, test_data, missing_data_method)
 train_data_scaler, test_data_scaler = md.Scaler(scaler_method,train_data,test_data)
-train_data_selection, test_data_selection = md.Feature_selection(feature_choose, train_data_scaler, test_data_scaler )
+train_data_selection, test_data_selection = md.Feature_selection(feature_choose, train_data_scaler,train_label, test_data_scaler,param =70 )
 train_data_final, train_label_final = md.Balance(balance_method,train_data_selection,train_label)
 test_data_final = test_data_selection
 #final_classifier_parameter = md.Find_Best_Param(classifier_parameter, train_data_final, train_label_final,foldN)

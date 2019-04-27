@@ -1010,3 +1010,20 @@ print(cm.info())
     ```
 
 ![](image/NN_method2_kbest.png)
+
+40. Parameter:
+    Missing Data method: .method1
+
+    Scaler: .standard
+    Feature Selection: .pca
+    Imbalance Solution: .SMOTE
+
+    Final Recall score for Classifier (.['KNN', 3])= .0.9179413333333333
+
+    ```
+            TN     FP    FN     TP
+    0  15394.0  231.0  56.0  319.0
+    The final cost is : 0    30310.0
+    ```
+
+    

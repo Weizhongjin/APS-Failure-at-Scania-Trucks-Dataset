@@ -9,7 +9,7 @@ from sklearn.model_selection import cross_val_score,StratifiedKFold
 from sklearn.metrics import accuracy_score,roc_curve,confusion_matrix,precision_recall_curve,auc,roc_auc_score,recall_score,classification_report
 from sklearn.metrics import f1_score
 from sklearn import svm
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import GaussianNB,BernoulliNB,ComplementNB
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
@@ -63,8 +63,8 @@ def MissingData(data, test_data, method):
             else:
                 #if train_data[name].isna().sum(axis = 0)<19999*0.02 and train_data[name].isna().sum(axis = 0) != 0:
                 if train_data[name].isna().sum(axis = 0) != 0:
-                    train_data[name] = train_data[name].fillna(train_data[name].mean())
-                    test_data[name] = test_data[name].fillna(train_data[name].mean())
+                    train_data[name] = train_data[name].fillna(train_data[name].median())
+                    test_data[name] = test_data[name].fillna(train_data[name].median())
                 pass
 
         train_label = train_label.apply(lambda x: 0 if x=='neg' else 1)
@@ -85,22 +85,22 @@ def Scaler(scaler_method,train_data,test_data):
     
 def Feature_selection(feature_choose, train_data_scaler,train_label,test_data_scaler, param ):
     if feature_choose == 'pca':
-        selector = PCA(param)
+        selector = PCA(param[0])
         selector.fit(train_data_scaler)
         pass
     elif feature_choose == 'KBest':
-        selector = SelectKBest(chi2, param)
+        selector = SelectKBest(chi2, param[1])
         selector.fit(train_data_scaler,train_label)
         pass
 
-    print("Feature Selection: .{}".format(feature_choose))
+    print("Feature Selection: .{} ({})".format(feature_choose,param))
     train_data_selection = selector.transform(train_data_scaler)
     test_data_selection = selector.transform(test_data_scaler)
     return train_data_selection, test_data_selection
 
 def Balance(balance_method, train_data, train_label):
     if balance_method == 'SMOTE':
-        balancer = SMOTE(ratio = "minority")
+        balancer = SMOTE(ratio = 0.5,random_state=17)
         pass
     else:
         pass
@@ -125,14 +125,14 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
         for c in c_param:
             for gam in gamma_param:
                 for kern in kernel_param:
-                    print('/---------------------------------------------/')
-                    auc_score = 0
                     cost_final = 0
-                    print('------------------------')
+                    auc_score = 0
+                    cost_final = 0  
+                    print('-------------------------')
                     print("C Parameter :", c)
                     print("Gamma: ", gam)
                     print("kernel: ", kern)
-                    print('------------------------')
+                    print('Training...')
                     for train, val in cv.split(train_data_final, train_label_final):
                         clf = svm.SVC(C=c,gamma=gam,kernel=kern)
                         clf.fit(train_data_final[train],train_label_final[train])
@@ -149,10 +149,9 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
                     c_vec.append(c)
                     kernel_vec.append(kern)
                     gamma_vec.append(gam)
-                    print ('Recall score for c param', c,'and kerne',kern,'and gamma',gam , '  =',auc_score)
+                    print ('Recall score  =',auc_score)
                     print('Cost = ' , cost_final)
                     print('-------------------------')
-                    print('')
         ind_max = cost_vec.index(min(cost_vec))
         best_c = c_vec[ind_max]
         best_gamma = gamma_vec[ind_max]
@@ -168,12 +167,12 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
         output_parameter = [clf_kind]
         for c in c_param:
             for penal in penaltys:
-                print('/---------------------------------------------/')
                 auc_score = 0
                 print('------------------------')
                 print("C Parameter :", c)
                 print("Penalty: ", penal)
                 print('------------------------')
+                cost_final = 0
                 for train, val in cv.split(train_data_final, train_label_final):
                     clf = LogisticRegression(C = c, penalty = penal ,solver='liblinear')
                     clf.fit(train_data_final[train],train_label_final[train])
@@ -186,27 +185,28 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
                 cost_final/foldN
                 cost_final=cost_final/foldN
                 auc_score = auc_score/foldN
+                cost_vec.append(cost_final)
                 score_vec.append(auc_score)
                 c_vec.append(c)
                 penalty_vec.append(penal)
-                print ('Recall score for c param', c,'and Penalty',penal,'=',auc_score)
+                print ('Recall score =',auc_score)
                 print('Cost = ' , cost_vec)
                 print('-------------------------')
                 print('')    
-        ind_max = score_vec.index(max(score_vec))
+        ind_max = cost_vec.index(min(cost_vec))
         best_c = c_vec[ind_max]
         best_penalty = penalty_vec[ind_max]
         output_parameter.append(best_c)
         output_parameter.append(best_penalty)
     elif clf_kind == 'SGDperceptron':
-        penaltys = parameter[1]
+        penaltys = parameter[0]
         penalty_vec = []
+        output_parameter = [clf_kind]
         for penalty_n in penaltys:
-            print('/---------------------------------------------/')
             auc_score = 0
             print('------------------------')
             print("Penalty: ", penalty_n)
-            print('------------------------')
+            cost_final = 0
             for train, val in cv.split(train_data_final, train_label_final):
                 clf = SGDClassifier(loss='perceptron', penalty= penalty_n)
                 clf.fit(train_data_final[train],train_label_final[train])
@@ -221,21 +221,117 @@ def Find_Best_Param(classifier_parameter, train_data_final, train_label_final,fo
             auc_score = auc_score/foldN
             score_vec.append(auc_score)
             penalty_vec.append(penalty_n)
-            print ('Recall score for Penalty',penalty_n,'=',auc_score)
+            print ('Recall score =',auc_score)
             print('Cost = ' , cost_vec)
             print('-------------------------')
             print('')    
-        ind_max = score_vec.index(max(score_vec))
+        ind_max = cost_vec.index(min(cost_vec))
         best_penalty = penalty_vec[ind_max]
         output_parameter.append(best_penalty)
-    elif clf_kind == 'GaussianNB':
-        clf = GaussianNB()
+        
+    elif clf_kind == 'NB':
+        kinds = parameter[0]
+        output_parameter = [clf_kind]
+        print('-------------------------')
+        for kind in kinds:
+            auc_score = 0
+            cost_final = 0
+            if kind == 'gaussian':
+                clf = GaussianNB()
+                print('GaussianNB:')
+            elif kind == 'ber':
+                clf = BernoulliNB()
+                print('BernoulliNB:')
+            else:
+                clf = ComplementNB()
+                print('ComplementNB')
+                pass
+            for train, val in cv.split(train_data_final, train_label_final):
+                clf.fit(train_data_final[train],train_label_final[train])
+                y_pred = clf.predict(train_data_final[val])
+                Recall = roc_auc_score(train_label_final[val],y_pred)
+                auc_score += Recall
+                cm = confusion_matrix(train_label_final[val],y_pred).ravel()
+                cost = 500*cm[2]+10*cm[1]
+                cost_final += cost
+            cost_final=cost_final/foldN
+            cost_vec.append(cost_final)
+            auc_score = auc_score/foldN
+            print ('Recall score  =',auc_score)
+            print('Cost = ' , cost_final)
+            print('-------------------------')
+        ind_max = cost_vec.index(min(cost_vec))
+        best_NB = kind[ind_max]
+        output_parameter.append(best_NB)
+        
+    elif clf_kind == 'KNN':
+        output_parameter=[clf_kind]
+        ks = parameter[0]
+        k_vec = []
+        for k in ks:
+            auc_score = 0
+            print('------------------------')
+            print("K: ", k)
+            print('------------------------')
+            cost_final = 0
+            for train, val in cv.split(train_data_final, train_label_final):
+                clf = KNeighborsClassifier(n_neighbors= k )
+                clf.fit(train_data_final[train],train_label_final[train])
+                y_pred = clf.predict(train_data_final[val])
+                Recall = roc_auc_score(train_label_final[val],y_pred)
+                auc_score += Recall
+                cm = confusion_matrix(train_label_final[val],y_pred).ravel()
+                cost = 500*cm[2]+10*cm[1]
+                cost_final += cost
+            cost_final=cost_final/foldN
+            cost_vec.append(cost_final)
+            auc_score = auc_score/foldN
+            score_vec.append(auc_score)
+            k_vec.append(k)
+            print ('Recall score =',auc_score)
+            print('Cost = ' , cost_vec)
+            print('-------------------------')
+   
+        ind_max = cost_vec.index(min(cost_vec))
+        best_k = k_vec[ind_max]
+        output_parameter.append(best_k)
+    elif clf_kind == 'NN':
+        output_parameter=[clf_kind]
+        layers = parameter[0]
+        layer_vec = []
+        for layer in layers:
+            auc_score = 0
+            print('------------------------')
+            print("Layers : ", layer)
+            print('------------------------')
+            cost_final = 0
+            for train, val in cv.split(train_data_final, train_label_final):
+                clf = MLPClassifier(hidden_layer_sizes= layer)
+                clf.fit(train_data_final[train],train_label_final[train])
+                y_pred = clf.predict(train_data_final[val])
+                Recall = roc_auc_score(train_label_final[val],y_pred)
+                auc_score += Recall
+                cm = confusion_matrix(train_label_final[val],y_pred).ravel()
+                cost = 500*cm[2]+10*cm[1]
+                cost_final += cost
+            cost_final=cost_final/foldN
+            cost_vec.append(cost_final)
+            auc_score = auc_score/foldN
+            score_vec.append(auc_score)
+            layer_vec.append(layer)
+            print ('Recall score =',auc_score)
+            print('Cost = ' , cost_vec)
+            print('-------------------------')
+   
+        ind_max = cost_vec.index(min(cost_vec))
+        best_layer = layer_vec[ind_max]
+        output_parameter.append(best_layer)
     else:
         clf = svm.SVC(C=0.01,gamma=0.01,kernel='rbf')
         output_parameter.append(0.01)
         output_parameter.append(0.01)
         output_parameter.append('rbf')
-    return output_parameter
+    return output_parameter,cost_vec
 
 
 
@@ -280,16 +376,16 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
     print('```')
     false_positive_rate, true_positive_rate, thresholds = roc_curve(test_label,y_pred_test)
     roc_auc = auc(false_positive_rate, true_positive_rate)
-    plt.title('Receiver Operating Characteristic')
-    plt.plot(false_positive_rate, true_positive_rate, 'b',
-    label='AUC = %0.2f'% roc_auc)
-    plt.legend(loc='lower right')
-    plt.plot([0,1],[0,1],'r--')
-    plt.xlim([-0.1,1.2])
-    plt.ylim([-0.1,1.2])
-    plt.ylabel('True Positive Rate')
-    plt.xlabel('False Positive Rate')
-    plt.show()
-
+    # plt.title('Receiver Operating Characteristic')
+    # plt.plot(false_positive_rate, true_positive_rate, 'b',
+    # label='AUC = %0.2f'% roc_auc)
+    # plt.legend(loc='lower right')
+    # plt.plot([0,1],[0,1],'r--')
+    # plt.xlim([-0.1,1.2])
+    # plt.ylim([-0.1,1.2])
+    # plt.ylabel('True Positive Rate')
+    # plt.xlabel('False Positive Rate')
+    # plt.show()
+    return cost
 
 

@@ -15,6 +15,7 @@ from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 def MissingData(data, test_data, method):
+    length = data.shape[0]
     if method == 'method1':
         data = shuffle(data,random_state = 17)
         train_label = data['class']
@@ -22,7 +23,7 @@ def MissingData(data, test_data, method):
         test_label = test_data['class']
         test_data = test_data.drop('class',axis=1)
         before_drop = train_data.columns.values.tolist()
-        train_data = train_data.dropna(thresh=19999*0.3,axis = 1) 
+        train_data = train_data.dropna(thresh=60000*0.3,axis = 1) 
         after_drop = train_data.columns.values.tolist()
         diff = set(before_drop).difference(after_drop)
         for name in diff:
@@ -50,7 +51,7 @@ def MissingData(data, test_data, method):
         test_label = test_data['class']
         test_data = test_data.drop('class',axis=1)
         before_drop = train_data.columns.values.tolist()
-        train_data = train_data.dropna(thresh=19999*0.2,axis = 1) 
+        train_data = train_data.dropna(thresh=60000*0.2,axis = 1) 
         after_drop = train_data.columns.values.tolist()
         diff = set(before_drop).difference(after_drop)
         for name in diff:
@@ -88,6 +89,7 @@ def Scaler(scaler_method,train_data,test_data):
 def Feature_selection(feature_choose, train_data_scaler,train_label,test_data_scaler, param ):
     if feature_choose == 'pca':
         selector = PCA(param[0])
+        # selector = PCA(param[0])
         selector.fit(train_data_scaler)
         pass
     elif feature_choose == 'KBest':
@@ -105,15 +107,21 @@ def Balance(balance_methods, train_data, train_label):
     param = balance_methods[1]
     if balance_method == 'SMOTE':
         if param == 1:
+            print('Oversample method: {}'.format('Smote Sampler (1)'))
             balancer = SMOTE(sampling_strategy = 'minority',random_state=17)
             pass
         else:
+            print('Oversample method: {}({})'.format('Somte Sampler', param))
             balancer = SMOTE(ratio = param ,random_state=17)
             pass
         pass
-    else:
+    elif balance_method == 'Random':
+        print('Oversample method: {}'.format('RandomOverSampler'))
         balancer = RandomOverSampler(sampling_strategy='minority')
         pass
+    else:
+        print('No Sampler')
+        return train_data, train_label
     print("Imbalance Solution: .{}".format(balance_methods))
     train_data_final, train_label_final = balancer.fit_sample(train_data, train_label)
     return train_data_final, train_label_final
@@ -409,11 +417,11 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
         elif clf_kind == 'KNN':
             clf = KNeighborsClassifier(n_neighbors = parameter[0]) 
         elif clf_kind == 'NN':
-            clf = MLPClassifier()
+            clf = MLPClassifier(hidden_layer_sizes=parameter[0])
         else:
             clf = svm.SVC(C=0.01,gamma=0.01,kernel='rbf')
 
-        clf_fit = clf.fit(train_data_final, train_label_final)
+        clf.fit(train_data_final, train_label_final)
         y_pred_test = clf.predict(text_data_final)
         recall_test_per=f1_score(test_label,y_pred_test)
         final += recall_test_per
@@ -424,24 +432,9 @@ def Classifier(classifier_parameter, train_data_final, train_label_final, text_d
     print ('Final F1 score for Classifier (.{})= .{}'.format(classifier_parameter,final_score))
     print('-------------------------')
     print('')
-    print('```')
     cm_final = pd.DataFrame(cm_final.reshape((1,4)), columns=['TN', 'FP', 'FN', 'TP'])
     print(cm_final)
     cost = 500*cm_final['FN']+10*cm_final['FP']
     print('The final cost is : {}'.format(cost))
-    print('```')
-    false_positive_rate, true_positive_rate, thresholds = roc_curve(test_label,y_pred_test)
-    roc_auc = auc(false_positive_rate, true_positive_rate)
-    # plt.title('Receiver Operating Characteristic')
-    # plt.plot(false_positive_rate, true_positive_rate, 'b',
-    # label='AUC = %0.2f'% roc_auc)
-    # plt.legend(loc='lower right')
-    # plt.plot([0,1],[0,1],'r--')
-    # plt.xlim([-0.1,1.2])
-    # plt.ylim([-0.1,1.2])
-    # plt.ylabel('True Positive Rate')
-    # plt.xlabel('False Positive Rate')
-    # plt.show()
-    return cost
 
 

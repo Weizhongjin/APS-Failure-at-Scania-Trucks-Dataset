@@ -10,64 +10,88 @@ from sklearn.metrics import accuracy_score,roc_curve,confusion_matrix,precision_
 from sklearn.metrics import f1_score
 import myDeep as md
 
-missing_data_methods = ['method1','method2']
-preprocess_methods = [['standard','pca'],['minmax','KBest']]
-scaler_method = ['standard', 'minmax']
-feature_choose = ['pca', 'KBest']
-balance_method = ['SMOTE', 1 ]
-classifier_parameter = ['svm',[0.01,0.1,1,10,100],[0.01],['rbf','sigmoid']] #classifier 1
+# missing_data_methods = ['method1','method2']
+# preprocess_methods = [['standard','pca'],['minmax','KBest']]
+missing_data_method = ['method2']
+preprocess_method = ['standard','pca']
+balance_method = ['SMOTE',1]
+# balance_method = ['No',0]
+
+# classifier_parameter = ['svm',[1],[0.01],['rbf']] #classifier 1
 #classifier_parameter = ['SGDperceptron',['l1','l2']]
 #classifier_parameter =['logisticRegression',[0.1,1,10,100],['l2']]
-#classifier_parameter = ['KNN',[2,3,4,5]]
-#classifier_parameter = ['NN',[50,100]]
+classifier_parameter1 = ['KNN',2]
+classifier_parameter2 = ['svm',1,0.01,'rbf']
+classifier_parameter3 = ['NN',50]
+#classifier_parameter = ['NN',[50]]
 #classifier_parameter =['NB',['gaussian','ber']]
 foldN = 5
-loop = 3
-cost_vector = []
-cost_rate_vector = []
-score_vector = []
+loop = 1
+# cost_vector1 = []
+# cost_rate_vector1 = []
+# score_vector1 = []
+# cost_vector2 = []
+# cost_rate_vector2 = []
+# score_vector2 = []
+# cost_vector3 = []
+# cost_rate_vector3 = []
+# score_vector3 = []
 param = [0.95,60]
-params = np.arange(0.1,0.98,0.02)
+# params =range(19,99,2)
 print('Start...')
-data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_training_set_SMALLER.csv" , na_values='na')
+#data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_training_set_SMALLER.csv" , na_values='na')
+data = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_training_set.csv" , na_values='na')
 test = pd.read_csv("/Users/weizhongjin/usc/ee559/finaldata/aps_failure_test_set.csv" , na_values='na')
-
-i = 1
-for missing_data_method in missing_data_methods:
-    for preprocess_method in preprocess_methods:
-        print('[Combination {}]'.format(i))
-        i += 1
-        print('-------------------------')
-        print('Parameter:')
-        scaler_method = preprocess_method[0]
-        feature_choose = preprocess_method[1]
-        train_data, train_label , test_data, test_label = md.MissingData(data, test, missing_data_method)
-        train_data = np.array(train_data)
-        test_data = np.array(test_data)
-        train_data, test_data = md.Scaler(scaler_method,train_data,test_data)
-        train_data, test_data = md.Feature_selection(feature_choose, train_data,train_label, test_data,param)
-        train_data, train_label = md.Balance(balance_method,train_data,train_label)  
-        final_classifier_parameter,cost_vec,cost_rate_vec,score_vec = md.Find_Best_Param(classifier_parameter, train_data, train_label,foldN)
-        cost_vector.append(cost_vec)
-        cost_rate_vector.append(cost_rate_vec)
-        score_vector.append(score_vec)
-        print('Best classifier parameter :{}'.format(final_classifier_parameter))
-        print('Cost vector: {}'.format(cost_vec))
-        print('Cost Rate vector: {}'.format(cost_rate_vec))
-        print('Score vector: {}'.format(score_vec))
-        print('/---------------------------------------/')
+# for missing_data_method in missing_data_methods:
+# for param in params:
+#     for preprocess_method in preprocess_methods:
+# missing_data_method = missing_data_methods[0]
+# balance_method_all = [balance_method,1]
+# param = param/100
+#print('[Combination {}]'.format(i))
+print('-------------------------')
+print('Parameter:')
+scaler_method = preprocess_method[0]
+feature_choose = preprocess_method[1]
+train_data, train_label , test_data, test_label = md.MissingData(data, test, missing_data_method[0])
+train_data = np.array(train_data)
+test_data = np.array(test_data)
+train_data, test_data = md.Scaler(scaler_method,train_data,test_data)
+train_data, test_data = md.Feature_selection(feature_choose, train_data,train_label, test_data,param)
+train_data, train_label = md.Balance(balance_method,train_data,train_label)  
+# final_classifier_parameter1,cost_vec1,cost_rate_vec1,score_vec1 = md.Find_Best_Param(classifier_parameter1, train_data, train_label,foldN)
+# final_classifier_parameter2,cost_vec2,cost_rate_vec2,score_vec2 = md.Find_Best_Param(classifier_parameter2, train_data, train_label,foldN)
+# final_classifier_parameter3,cost_vec3,cost_rate_vec3,score_vec3 = md.Find_Best_Param(classifier_parameter3, train_data, train_label,foldN)
+# cost_vector1.append(cost_vec1)
+# cost_rate_vector1.append(cost_rate_vec1[0])
+# score_vector1.append(score_vec1)
+# cost_vector2.append(cost_vec2)
+# cost_rate_vector2.append(cost_rate_vec2[0])
+# score_vector2.append(score_vec2)
+# cost_vector3.append(cost_vec3)
+# cost_rate_vector3.append(cost_rate_vec3[0])
+# score_vector3.append(score_vec3)
+# print('Best classifier parameter :{}'.format(final_classifier_parameter))
+# print('Cost vector: {}'.format(cost_vec))
+# print('Cost Rate vector: {}'.format(cost_rate_vec))
+# print('Score vector: {}'.format(score_vec))
+print('/---------------------------------------/')
+final_classifier_parameter = classifier_parameter3
 #------------------------Don't Use!!!!!!!!!!!!!!!---------------------   
 #------------------------Don't Use!!!!!!!!!!!!!!!---------------------  
 #------------------------Don't Use!!!!!!!!!!!!!!!---------------------   
-#only used at last        final_cost = md.Classifier(final_classifier_parameter, train_data, train_label,test_data,test_label,loop)
+md.Classifier(final_classifier_parameter, train_data, train_label,test_data,test_label,loop)
 #------------------------Don't Use!!!!!!!!!!!!!!!---------------------   
 #------------------------Don't Use!!!!!!!!!!!!!!!---------------------  
-#------------------------Don't Use!!!!!!!!!!!!!!!---------------------  
-# plt.figure()
-# cost_vector = np.array(cost_vec)
-# plt.plot(params,cost_vec)
-# print("The minimum cost in : {}".format(np.argmin(cost_vector)))
-# print('The parameter is : {}'.format_map(params(np.argmin(cost_vector))))
-
+#------------------------Don't Use!!!!!!!!!!!!!!!---------------------
+# cost_rate_vectors1 = np.array(cost_vector1)  
+# cost_rate_vectors2 = np.array(cost_vector2)  
+# cost_rate_vectors3 = np.array(cost_vector3)  
+# plt.title('Comparison of different PCA Parameter')
+# plt.plot(params,cost_rate_vectors1,color='blue', label='KNN')
+# plt.plot(params,cost_rate_vectors2,color='red', label='SVM')
+# plt.plot(params,cost_rate_vectors3,color='green', label='MLP(NN)')
+# plt.legend() 
+# plt.xlabel('PCA Parameter')
+# plt.ylabel('Cost')
 # plt.show()
-print('Final Cost rate Table: {}'.format(cost_rate_vector))

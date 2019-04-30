@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score,StratifiedKFold
 from sklearn.metrics import accuracy_score,roc_curve,confusion_matrix,precision_recall_curve,auc,roc_auc_score,recall_score,classification_report
 from sklearn.metrics import f1_score
-import myDeep as md
+import util as md
 
 missing_data_methods = ['method2']
 #preprocess_methods = [['standard','pca'],['minmax','KBest']]
